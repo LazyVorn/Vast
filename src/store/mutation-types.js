@@ -1,1 +1,2 @@
 export const INIT_PROJECT_ID = 'INIT_PROJECT_ID'
+export const INIT_USER_ID = 'INIT_USER_ID'

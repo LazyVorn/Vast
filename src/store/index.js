@@ -4,6 +4,7 @@ import mutations from './mutations'
 import actions from './actions'
 Vue.use(Vuex)
 const state = {
+    userId: "",
     projectId: "",
 }
 export default new Vuex.Store({

@@ -24,17 +24,13 @@ export const $get = (url, params) => {
                 }
             }).then((res) => {
                 if (res.status == 200) {
-                    if (res.data.code == 0 || res.status == 200) {
-                        resolve(res.data)
-                    } else {
-                        failMessage(res.data.message);
-                    }
+                    resolve(res.data)
                 } else {
-                    failMessage()
+                    failMessage(res.message)
                     reject(res)
                 }
             }).catch((mes) => {
-                failMessage()
+                failMessage(mes.message)
                 reject(mes)
             })
         })
@@ -51,18 +47,13 @@ export const $post = (url, params, type) => {
             return new Promise((resolve, reject) => {
                 Axios.post(url, qs.stringify(params)).then((res) => {
                     if (res.status == 200) {
-                        if (res.data.code == 0) {
-                            resolve(res.data)
-                        } else {
-                            failMessage(res.data.message)
-                            reject(res)
-                        }
+                        resolve(res.data)
                     } else {
-                        failMessage()
+                        failMessage(res.message)
                         reject(res)
                     }
                 }).catch((mes) => {
-                    failMessage()
+                    failMessage(mes.message)
                     reject(mes)
                 })
             })
@@ -71,39 +62,33 @@ export const $post = (url, params, type) => {
                 let type = Object.prototype.toString.call(params);
                 if (type == '[object Array]') {
                     Axios.post(url, params).then((res) => {
-                        if (res.status == 200) {
-                            if (res.data.code == 0) {
-                                resolve(res.data)
-                            } else {
-                                failMessage(res.data.message)
-                                reject(res)
-                            }
+                        if (res.status < 500) {
+                            resolve(res.data)
                         } else {
-                            failMessage()
+                            failMessage(res.message)
                             reject(res)
                         }
                     }).catch((mes) => {
-                        failMessage()
+                        failMessage(mes.message)
                         reject(mes)
                     })
                 } else {
                     Axios.post(url, {
                         ...params
                     }).then((res) => {
-                        if (res.status == 200) {
-                            if (res.data.code == 0) {
-                                resolve(res.data)
-                            } else {
-                                failMessage(res.data.message);
-                                reject(res)
-                            }
+                        if (res.status < 500) {
+                            resolve(res.data)
                         } else {
-                            failMessage()
+                            failMessage(res.message)
                             reject(res)
                         }
                     }).catch((mes) => {
-                        failMessage()
-                        reject(mes)
+                        if (mes.response.status < 500) {
+                            resolve(mes.response)
+                        } else {
+                            failMessage(mes.response.data.message)
+                            reject(mes)
+                        }
                     })
                 }
             })
@@ -122,11 +107,7 @@ export const $Axios = (url, param) => {
     return new Promise((resolve, reject) => {
         Axios(url, param).then((res) => {
             if (res.status == 200) {
-                if (res.data.code == 0) {
-                    resolve(res.data)
-                } else {
-                    failMessage(res.data.message);
-                }
+                resolve(res.data)
             } else {
                 failMessage()
                 reject(res)
