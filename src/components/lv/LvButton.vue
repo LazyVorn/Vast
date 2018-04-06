@@ -52,7 +52,7 @@ data() {
                 lineHeight:"40px"
             },
             small:{
-                padding:"0 15px",
+                padding:"0 10px",
                 height:"32px",
                 lineHeight:"32px"
             }
@@ -62,7 +62,8 @@ data() {
                 backgroundColor: "green"
             },
             normal:{
-                backgroundColor: "#007fff"
+                // backgroundColor: "#007fff"
+                backgroundColor:"#4472c4"
             },
             warning:{
                 backgroundColor: "red"
@@ -92,6 +93,7 @@ methods:{
             transition: .3s;
             border: 1px solid #ddd;
             border-radius: 5px;
+            cursor: pointer;
             &:hover{
                 opacity: .8;
             }

@@ -6,6 +6,9 @@ import router from './Router'
 
 import store from '@/store'
 
+import VueCookies from 'vue-cookies'
+Vue.use(VueCookies)
+
 import {
     Pagination,
     Dialog,

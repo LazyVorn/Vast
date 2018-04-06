@@ -11,14 +11,26 @@ export default {
     return {}
   },
   computed:{
-    userId(){
-      return this.$store.state.userId
+    cookiesUserId(){
+      this.$store.commit("INIT_USER_ID",this.$cookies.get('user_id'))
+      return this.$cookies.get('user_id')
+    },
+    cookiesToken(){
+      return this.$cookies.get('user_token')
+    },
+    projectId(){
+      this.$store.commit("INIT_PROJECT_ID",this.$cookies.get('project_id'))
+      return this.$cookies.get('project_id')
     }
   },
   watch:{
-    userId(){
-      this.userId == "" ? this.$router.push("/") : ""
-    }
+  },
+  created(){
+     if(!this.cookiesUserId || this.cookiesUserId == ""){
+       this.$router.push("/")
+     } else if(!this.projectId || this.cookiesUserId == "") {
+       this.$router.push("/ProjectInfo")
+     }
   }
 }
 </script>

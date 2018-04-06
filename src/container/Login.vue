@@ -95,11 +95,13 @@ export default {
       },
       loginFunc(){
           if(this.loginInfo.identity !="" && this.loginInfo.password !="") {
-            // let url = "http://47.98.112.70:8080/user/log"
-            let url = "http://192.168.31.82:8080/user/log"
+            let url = this.$api.login()
             this.$post(url,this.loginInfo).then(res => {
                 if(!res.status){
                     this.$store.commit("INIT_USER_ID",res.userId)
+                    this.$cookies.set("user_id",res.userId).set("user_token",res.token)
+                    //记住一周
+                    //this.$cookies.set("user_id",res.userId,60 * 60 * 24 * 7).set("user_token",res.token,60 * 60 * 24 * 7)
                     this.$Message.success("登陆成功，现为您跳转。。。。。。")
                     setTimeout(()=>{
                         this.$router.push("/ProjectInfo")
@@ -114,10 +116,10 @@ export default {
       },
       signFunc(){
           if(!this.newUserWarning && !this.newNameWarning && !this.newEmailWarning && !this.newPasswordWarning && !this.newMuPasswordWarning) {
-            // let url = "http://47.98.112.70:8080/user"
-            let url = "http://192.168.31.82:8080/user"
+            let url = this.$api.sign()
             this.$post(url,this.signInfo).then(res => {
-              this.$Message.success("注册成功，现为您跳转。。。。。。")
+                this.$store.commit("INIT_USER_ID",res.id)
+                this.$Message.success("注册成功，现为您跳转。。。。。。")
                 this.$router.push("/ProjectInfo")
             })
           } else {
@@ -196,7 +198,7 @@ export default {
             border:1px solid #ccc;
             border-radius: 5px;
             transform: rotateY(0deg);
-            transition: 1s;
+            transition: .8s;
             &.sign_box{
                 transform: rotateY(180deg);
                 &.active{

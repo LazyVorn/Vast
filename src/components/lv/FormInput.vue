@@ -70,7 +70,7 @@ export default {
             this.$emit("value",this.message.trim())
         },
         checkRepeat(){
-            let url = "http://47.98.112.70:8080/user/precondition",
+            let url = this.$api.precondition(),
                 _obj = {}
                 _obj[this.noRepeat] = this.message
             this.$post(url,_obj).then(res => {

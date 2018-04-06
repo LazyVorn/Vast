@@ -5,22 +5,33 @@
         <lv-button size="small" @on-click="quit">退出登录</lv-button>
         <lv-button size="small" @on-click="addPro">新建项目</lv-button>
     </div>
-    <add-project v-if="add" @close="add = false"></add-project>
+    <div class="pro_list_wrap">
+        <pro-box v-for="ele in proInfo" :projectInfo="ele" :key="ele.id" @on-click="getProId"></pro-box>
+    </div>
+    <add-project v-if="add" @close="add = false" @overload="getList"></add-project>
 </div>  
 </template>
 
 <script>
+import ProBox from "../components/ProBox"
 import LvButton from "../components/lv/LvButton"
 import AddProject from "../components/AddProject"
 export default {
-name:"",
+name:"ProInfo",
 components:{
     AddProject,
-    LvButton
+    LvButton,
+    ProBox
 },
 data(){
     return {
-        add:false
+        add:false,
+        proInfo:[]
+    }
+},
+computed:{
+    userId(){
+        return this.$store.state.userId
     }
 },
 methods:{
@@ -29,7 +40,25 @@ methods:{
     },
     quit(){
         this.$store.commit("INIT_USER_ID","")
+        this.$cookies.remove("user_id")
+        this.$cookies.remove("user_token")
+        window.location.reload()
+    },
+    getList(){
+        let url = this.$api.fetchProList()
+        this.$get(url,{'userId':this.userId}).then(res => {
+            this.proInfo = res.rows
+        })
+    },
+    getProId(id){
+        this.$cookies.set("project_id",id)
+        this.$store.commit("INIT_PROJECT_ID",id)
+        this.$router.push(`/${id}/Index`)
     }
+},
+created(){
+        this.$cookies.remove("project_id")
+    this.getList()
 }
 }
 </script>
@@ -51,6 +80,11 @@ methods:{
             float: right;
             margin: 9px 5px;
         }
+    }
+    .pro_list_wrap{
+        box-sizing: border-box;
+        width: 100%;
+        padding: 20px;
     }
 }
 </style>

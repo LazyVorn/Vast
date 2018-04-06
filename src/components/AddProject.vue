@@ -64,10 +64,10 @@ watch:{
 },
 methods:{
     finishClick(){
-        // let url = "http://47.98.112.70:8080/project"
-            let url = "http://192.168.31.82:8080/project"
-        this.$post(url,{'createPerson':this.userId,'name':this.nameInfo,'intrusion':this.detailInfo}).then(res => {
+            let url = this.$api.addPro()
+        this.$post(url,{'createPerson':this.userId,'name':this.nameInfo,'introduction':this.detailInfo}).then(res => {
             this.$Message.success("新建成功")
+            this.$emit('overload')
             this.close()
         })
     },
