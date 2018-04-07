@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Login from '@/container/Login'
 import ProInfo from '@/container/ProInfo'
 import Frame from '@/container/Frame'
+import Overview from '@/container/Overview'
 
 Vue.use(Router)
 
@@ -16,8 +17,13 @@ export default new Router({
         name: 'ProInfo',
         component: ProInfo
     }, {
-        path: '/:id/Index',
+        path: '/:id/Frame',
         name: 'Frame',
-        component: Frame
+        component: Frame,
+        children: [{
+            path: '/:id/Frame/Overview',
+            name: 'Overview',
+            component: Overview
+        }]
     }]
 })

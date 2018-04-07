@@ -53,7 +53,7 @@ methods:{
     getProId(id){
         this.$cookies.set("project_id",id)
         this.$store.commit("INIT_PROJECT_ID",id)
-        this.$router.push(`/${id}/Index`)
+        this.$router.push(`/${id}/Frame`)
     }
 },
 created(){

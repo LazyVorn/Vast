@@ -8,8 +8,8 @@
             </div>
             <div class="add_pro_box">
                 <el-steps :active="active" finish-status="success" simple style="zoom:0.9">
-                    <el-step title="第一步"></el-step>
-                    <el-step title="第二步"></el-step>
+                    <el-step title="基本信息"></el-step>
+                    <el-step title="选择封面"></el-step>
                     <el-step title="完成"></el-step>
                 </el-steps>
                 <div class="apb_first_box" v-show="active == 1">
@@ -18,6 +18,13 @@
                     <p class="none"></p>
                     <label for="detail-inp">游戏简述：</label>
                     <textarea id="detail-inp" maxlength="200" v-model="detailInfo" placeholder="请输入新游戏的大概描述,200字以内"></textarea>
+                </div>
+                <div class="apb_secend_box" v-show="active == 2">
+                    <el-upload class="upload_wrap" drag action="http://47.98.112.70:8080/ftp" :on-success="getFile">
+                        <i class="el-icon-upload"></i>
+                        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+                        <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+                    </el-upload>
                 </div>
             </div>
             <div class="add_pro_btn_wrap">
@@ -40,7 +47,8 @@ data(){
     return {
         active:1,
         nameInfo:"",
-        detailInfo:""
+        detailInfo:"",
+        url:""
     }
 },
 computed:{
@@ -63,9 +71,12 @@ watch:{
     },
 },
 methods:{
+    getFile(res, file, fileList){
+        this.url = res.url
+    },
     finishClick(){
             let url = this.$api.addPro()
-        this.$post(url,{'createPerson':this.userId,'name':this.nameInfo,'introduction':this.detailInfo}).then(res => {
+        this.$post(url,{'createPerson':this.userId,'name':this.nameInfo,'introduction':this.detailInfo,'coverUrl':this.url}).then(res => {
             this.$Message.success("新建成功")
             this.$emit('overload')
             this.close()
@@ -186,6 +197,23 @@ methods:{
                         color:#ccc;
                     }
                 }  
+            }
+            .apb_secend_box{
+                width: 405px;
+                margin: 40px auto;
+                .upload_wrap{
+                    width: 100%;
+                    margin: 10px 0;
+                    .el-upload{
+                        width: 100%;
+                        .el-upload-dragger{
+                            width: 100%;
+                            height: 240px;
+                            box-sizing: border-box;
+                            padding:80px 10px 0;
+                        }
+                    }
+                }
             }
         }
         .add_pro_btn_wrap{

@@ -1,6 +1,6 @@
 <template>
     <div class="pb_wrap" @click="isClick">
-        <img :src="info.coverUrl" alt="" class="pb_img">
+        <img :src="info.coverUrl" alt="暂无图像" class="pb_img">
         <h1 class="pb_title">{{info.name}}</h1>
         <p class="pb_person">负责人：{{info.createPersonName}}</p>
         <p class="pb_date">创建时间：{{info.createTime}}</p>
@@ -27,9 +27,9 @@ export default {
             info:{}
         }
     },
-    created(){
+    mounted(){
         let _obj = this.projectInfo
-        _obj.coverUrl = _obj.coverUrl == "" ? '../../static/logo.png' : projectInfo.coverUrl
+        _obj.coverUrl = _obj.coverUrl == "" ? '../../static/logo.png' : this.projectInfo.coverUrl
         _obj.updateTime = this.dealDate(_obj.updateTime)
         _obj.createTime = this.dealDate(_obj.createTime)
         _obj.announcement = _obj.announcement == "" ? "暂无" : _obj.announcement
