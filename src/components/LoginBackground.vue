@@ -25,9 +25,9 @@ function CanvasAnimate(Dom,options){
     this.width = Dom.width
     this.height = Dom.height
     this.length = options.length || 100
-    this.RoundColor = options.RoundColor || "#eee" 
+    this.RoundColor = options.RoundColor || "#ddd" 
     this.RoundDiameter = options.RoundDiameter || 2
-    this.LineColor = options.LineColor || "#f2f2f2"
+    this.LineColor = options.LineColor || "#eee"
     this.LineWeight = options.LineWeight || 1
     this.list = []
     this.paused = true
