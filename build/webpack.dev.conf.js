@@ -9,6 +9,9 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const portfinder = require('portfinder')
+//一个可以强制打开浏览器并跳转到指定url的插件
+const opn = require('opn')
+const autoOpenBrowser = !!config.dev.autoOpenBrowser
 
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
@@ -69,27 +72,33 @@ const devWebpackConfig = merge(baseWebpackConfig, {
 })
 
 module.exports = new Promise((resolve, reject) => {
-  portfinder.basePort = process.env.PORT || config.dev.port
-  portfinder.getPort((err, port) => {
-    if (err) {
-      reject(err)
-    } else {
-      // publish the new Port, necessary for e2e tests
-      process.env.PORT = port
-      // add port to devServer config
-      devWebpackConfig.devServer.port = port
-
-      // Add FriendlyErrorsPlugin
-      devWebpackConfig.plugins.push(new FriendlyErrorsPlugin({
-        compilationSuccessInfo: {
-          messages: [`Your application is running here: http://${devWebpackConfig.devServer.host}:${port}`],
-        },
-        onErrors: config.dev.notifyOnErrors
-        ? utils.createNotifierCallback()
-        : undefined
-      }))
-
-      resolve(devWebpackConfig)
-    }
+    portfinder.basePort = process.env.PORT || config.dev.port
+    portfinder.getPort((err, port) => {
+      if (err) {
+        reject(err)
+      } else {
+        // publish the new Port, necessary for e2e tests
+        process.env.PORT = port
+        // add port to devServer config
+        devWebpackConfig.devServer.port = port
+  
+        // Add FriendlyErrorsPlugin
+        devWebpackConfig.plugins.push(new FriendlyErrorsPlugin({
+          compilationSuccessInfo: {
+            messages: [`Your application is running here: http://${devWebpackConfig.devServer.host}:${port}`],
+          },
+          onErrors: config.dev.notifyOnErrors
+          ? utils.createNotifierCallback()
+          : undefined
+        }))
+        var uri = 'http://localhost:' + port + '/index.html#/'
+        console.log('> Listening at ' + uri + '\n')
+            // when env is testing, don't need open it
+            //如果不是测试环境,自动打开浏览器并跳到我们的开发地址
+        if (!autoOpenBrowser && process.env.NODE_ENV !== 'testing') {
+            opn(uri, { app: ['chrome'] })
+        }
+        resolve(devWebpackConfig)
+      }
+    })
   })
-})

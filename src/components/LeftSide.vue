@@ -50,6 +50,13 @@ data () {
                 simpleValue:"BOSS",
                 src:"&#xe60e;",
                 path:"/BOSS"
+            },
+            {
+                id:6,
+                value:"兵种信息",
+                simpleValue:"兵种",
+                src:"&#xe60e;",
+                path:"/Unit"
             }
         ]
     }
