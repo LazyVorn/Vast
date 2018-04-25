@@ -1,4 +1,4 @@
-const baseUrl = '/api'
+const baseUrl = ''
 const apiVersion = '/v1'
 const api = {
     login: () => `${baseUrl}/user/log`,
@@ -11,7 +11,7 @@ export function rul(name, _store, params = {}) {
     if (_store) {
         params.id = _store.state.projectId
     }
-    return baseUrl + api[name](params)
+    return api[name](params)
         // return baseUrl + apiVersion + api[name](params)
 }
 export default api

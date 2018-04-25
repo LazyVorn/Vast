@@ -8,7 +8,7 @@ import {
 /**
  * 设置公共请求头access_token
  */
-Axios.defaults.headers.common['CLIENTVERSION'] = `V1`;
+// Axios.defaults.headers.common['CLIENTVERSION'] = `V1`;
 /**
  * post
  * @param  {String} url    [地址]
