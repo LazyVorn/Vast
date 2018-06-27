@@ -18,7 +18,9 @@ import {
     RadioGroup,
     Select,
     Option,
-    ColorPicker
+    ColorPicker,
+    Radio,
+    RadioGroup
 } from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import Axios from 'axios'
@@ -46,6 +48,9 @@ Vue.use(RadioGroup);
 Vue.use(Select);
 Vue.use(Option);
 Vue.use(ColorPicker);
+Vue.use(Radio);
+Vue.use(RadioGroup);
+
 Axios.interceptors.request.use(
     config => {
         if (config.method == 'post') {

@@ -2,24 +2,29 @@
   <div id="app">
       <div class="btn_wrap">
         <lv-button size="mini">删除单体</lv-button>
-        <lv-button size="mini">新建单体</lv-button>
+        <lv-button size="mini" @on-click="addUnitStatus = true">新建单体</lv-button>
       </div>
+      <lv-modal v-if="addUnitStatus" :width="1200" title="新建单体" @close="addUnitStatus = false">
+          <add-unit></add-unit>
+      </lv-modal>
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
+import AddUnit from './components/AddUnit.vue';
 export default {
   name: "App",
   components: {
+    AddUnit
   },
   data() {
     return {
+      addUnitStatus:false
     };
   },
   methods: {
     getList(){
-
     }
   },
   computed: {
